@@ -1,45 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Great Archives | Elden Ring Lore</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap"
+        rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0b0b0b; color: #d4d4d4; }
-        h1, h2, h3, .souls-font { font-family: 'Cinzel', serif; }
-        .gold-text { color: #C9A959; }
-        .card { background: linear-gradient(180deg, #18181b 0%, #09090b 100%); }
-        .card:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(201, 169, 89, 0.15); border-color: #52525b; }
-        .scrollbar-hide::-webkit-scrollbar { display: none; }
-        
-        /* Modal Scrollbar */
-        .modal-scroll::-webkit-scrollbar { width: 8px; }
-        .modal-scroll::-webkit-scrollbar-track { background: #18181b; }
-        .modal-scroll::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 4px; }
-        .modal-scroll::-webkit-scrollbar-thumb:hover { background: #C9A959; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: radial-gradient(ellipse at top, #1a1410 0%, #0a0806 50%, #000000 100%);
+            color: #d4d4d4;
+            position: relative;
+        }
 
-        @keyframes pulse-gold { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
-        .animate-pulse-gold { animation: pulse-gold 2s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        /* Subtle vignette effect */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        body>* {
+            position: relative;
+            z-index: 2;
+        }
+
+        h1,
+        h2,
+        h3,
+        .souls-font {
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.05em;
+        }
+
+        .gold-text {
+            color: #C9A959;
+            text-shadow: 0 0 20px rgba(201, 169, 89, 0.3);
+        }
+
+        /* Ornate card styling */
+        .card {
+            background: linear-gradient(180deg, rgba(24, 20, 16, 0.9) 0%, rgba(12, 10, 8, 0.95) 100%);
+            border-image: linear-gradient(135deg, #3a3226 0%, #1a1410 50%, #3a3226 100%) 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Corner decorations */
+        .card::before,
+        .card::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 1px solid #C9A959;
+            opacity: 0.3;
+            transition: opacity 0.3s;
+        }
+
+        .card::before {
+            top: 8px;
+            left: 8px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .card::after {
+            bottom: 8px;
+            right: 8px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(201, 169, 89, 0.25), inset 0 1px 0 rgba(201, 169, 89, 0.1);
+            border-color: #C9A959;
+        }
+
+        .card:hover::before,
+        .card:hover::after {
+            opacity: 0.8;
+        }
+
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Modal Scrollbar */
+        .modal-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-scroll::-webkit-scrollbar-track {
+            background: #18181b;
+        }
+
+        .modal-scroll::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, #3f3f46 0%, #C9A959 100%);
+            border-radius: 4px;
+        }
+
+        .modal-scroll::-webkit-scrollbar-thumb:hover {
+            background: #C9A959;
+        }
+
+        /* Glowing rune effect */
+        @keyframes pulse-gold {
+
+            0%,
+            100% {
+                opacity: 1;
+                text-shadow: 0 0 10px rgba(201, 169, 89, 0.5);
+            }
+
+            50% {
+                opacity: 0.7;
+                text-shadow: 0 0 20px rgba(201, 169, 89, 0.8);
+            }
+        }
+
+        .animate-pulse-gold {
+            animation: pulse-gold 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+
+        /* Ornate border for header */
+        .ornate-border {
+            border-image: linear-gradient(90deg, transparent 0%, #C9A959 50%, transparent 100%) 1;
+        }
+
+        /* Parchment texture overlay */
+        .parchment-overlay {
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(201, 169, 89, 0.03) 2px, rgba(201, 169, 89, 0.03) 4px);
+        }
+
+        /* Rune accent */
+        .rune-accent::before {
+            content: '⚜';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #C9A959;
+            font-size: 16px;
+            opacity: 0.4;
+        }
+
+        /* Filter button enhancement */
+        .filter-btn {
+            position: relative;
+            background: linear-gradient(180deg, rgba(24, 20, 16, 0.6) 0%, rgba(12, 10, 8, 0.8) 100%);
+        }
+
+        .filter-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent 0%, #C9A959 50%, transparent 100%);
+        }
     </style>
 </head>
+
 <body class="min-h-screen flex flex-col items-center selection:bg-[#C9A959] selection:text-black">
 
-    <header class="w-full max-w-7xl p-6 md:p-10 border-b border-zinc-800 flex flex-col md:flex-row justify-between items-center bg-[#0b0b0b] sticky top-0 z-40 opacity-95 backdrop-blur-sm">
-        <div class="mb-4 md:mb-0 text-center md:text-left">
-            <h1 class="text-3xl md:text-5xl font-bold gold-text tracking-tight">The Great Archives</h1>
-            <p class="text-zinc-500 text-sm mt-2 font-mono">Curated Knowledge from the Lands Between</p>
+    <header
+        class="w-full max-w-7xl p-6 md:p-10 border-b ornate-border flex flex-col md:flex-row justify-between items-center sticky top-0 z-40 backdrop-blur-md parchment-overlay"
+        style="background: rgba(10, 8, 6, 0.95);"></header>
+    <div class="mb-4 md:mb-0 text-center md:text-left relative">
+        <div class="absolute -top-2 left-0 text-[#C9A959] opacity-20 text-4xl">◈</div>
+        <h1 class="text-3xl md:text-5xl font-bold gold-text tracking-tight relative">The Great Archives</h1>
+        <p class="text-zinc-500 text-sm mt-2 font-mono italic">Curated Knowledge from the Lands Between</p>
+        <div class="absolute -bottom-2 right-0 text-[#C9A959] opacity-20 text-4xl">◈</div>
+    </div>
+    <div class="text-center md:text-right">
+        <div class="inline-block px-4 py-2 border border-[#C9A959]/30 bg-black/40 relative"
+            style="clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);">
+            <p id="last-updated" class="text-xs text-zinc-400 font-mono uppercase tracking-widest">System Offline</p>
         </div>
-        <div class="text-center md:text-right">
-            <div class="inline-block px-3 py-1 border border-zinc-800 rounded-full bg-zinc-900">
-                <p id="last-updated" class="text-xs text-zinc-400 font-mono uppercase tracking-widest">System Offline</p>
-            </div>
-        </div>
+    </div>
     </header>
 
-    <nav class="w-full max-w-7xl p-4 md:p-6 overflow-x-auto whitespace-nowrap scrollbar-hide border-b border-zinc-900/50">
-        <div id="filters" class="flex space-x-3 pb-2"></div>
+    <nav
+        class="w-full max-w-7xl p-4 md:p-6 overflow-x-auto whitespace-nowrap scrollbar-hide border-b ornate-border relative rune-accent">
+    </nav>
+    <div id="filters" class="flex space-x-3 pb-2"></div>
     </nav>
 
     <main id="content-grid" class="w-full max-w-7xl p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -53,40 +211,57 @@
         <p>Fan project. Not affiliated with FromSoftware.</p>
     </footer>
 
-    <div id="modal-overlay" class="fixed inset-0 bg-black/90 z-50 hidden flex justify-center items-center backdrop-blur-sm p-4" onclick="closeModal()">
-        <div id="modal-content" class="bg-[#09090b] border border-[#C9A959] w-full max-w-4xl max-h-[90vh] rounded-sm flex flex-col shadow-2xl relative" onclick="event.stopPropagation()">
-            
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-zinc-500 hover:text-white z-10">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-            </button>
+    <div id="modal-overlay"
+        class="fixed inset-0 bg-black/90 z-50 hidden flex justify-center items-center backdrop-blur-sm p-4"
+        onclick="closeModal()">
+        <div id="modal-content"
+            class="bg-[#09090b] border-2 border-[#C9A959] w-full max-w-4xl max-h-[90vh] flex flex-col shadow-2xl relative parchment-overlay"
+            style="clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px); box-shadow: 0 0 60px rgba(201, 169, 89, 0.4), inset 0 0 40px rgba(0,0,0,0.8);"
+            onclick="event.stopPropagation()"></div>
 
-            <div class="p-8 border-b border-zinc-800 bg-[#121214]">
-                <div class="flex gap-3 mb-3">
-                    <span id="m-category" class="text-[10px] font-bold text-black bg-[#C9A959] px-2 py-1 rounded uppercase tracking-wider">LORE</span>
-                    <span id="m-score" class="text-[10px] text-zinc-500 font-mono py-1">⬆ 0</span>
-                </div>
-                <h2 id="m-title" class="text-2xl md:text-3xl souls-font text-zinc-100 leading-tight">Title Goes Here</h2>
+        <button onclick="closeModal()" class="absolute top-4 right-4 text-zinc-500 hover:text-white z-10">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+
+        <div class="p-8 border-b ornate-border bg-[#121214] relative">
+            <div class="absolute top-4 left-4 text-[#C9A959] opacity-20 text-2xl">❖</div>
+            <div class="absolute top-4 right-4 text-[#C9A959] opacity-20 text-2xl">❖</div>
+            <div class="flex gap-3 mb-3">
+                <span id="m-category"
+                    class="text-[10px] font-bold text-black bg-[#C9A959] px-3 py-1 uppercase tracking-wider"
+                    style="clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);">LORE</span>
+                <span id="m-score" class="text-[10px] text-zinc-500 font-mono py-1">⬆ 0</span>
             </div>
+            <h2 id="m-title" class="text-2xl md:text-3xl souls-font text-zinc-100 leading-tight gold-text">Title Goes
+                Here</h2>
+        </div>
 
-            <div class="p-8 overflow-y-auto modal-scroll space-y-8">
-                <div id="m-body" class="text-zinc-300 text-base leading-relaxed whitespace-pre-wrap font-light"></div>
-                
-                <div class="border-t border-zinc-800 pt-8">
-                    <h3 class="text-[#C9A959] souls-font text-lg mb-6">Scholars' Insights</h3>
-                    <div id="m-comments" class="space-y-6"></div>
+        <div class="p-8 overflow-y-auto modal-scroll space-y-8">
+            <div id="m-body" class="text-zinc-300 text-base leading-relaxed whitespace-pre-wrap font-light"></div>
+
+            <div class="border-t ornate-border pt-8 relative">
+                <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 text-[#C9A959] text-xl opacity-40">✦
                 </div>
-            </div>
-
-            <div class="p-4 border-t border-zinc-800 bg-[#121214] text-center">
-                <a id="m-link" href="#" target="_blank" class="text-xs text-zinc-500 hover:text-[#C9A959] uppercase tracking-widest transition-colors">
-                    View Original Scroll on Reddit ↗
-                </a>
+                <h3 class="text-[#C9A959] souls-font text-lg mb-6 text-center">Scholars' Insights</h3>
+                <div id="m-comments" class="space-y-6"></div>
             </div>
         </div>
+
+        <div class="p-4 border-t ornate-border bg-[#121214] text-center relative">
+            <div class="absolute bottom-2 left-2 text-[#C9A959] opacity-20 text-xl">◆</div>
+            <a id="m-link" href="#" target="_blank"
+                class="text-xs text-zinc-500 hover:text-[#C9A959] uppercase tracking-widest transition-colors souls-font">
+                View Original Scroll on Reddit ↗
+            </a>
+            <div class="absolute bottom-2 right-2 text-[#C9A959] opacity-20 text-xl">◆</div>
+        </div>
+    </div>
     </div>
 
     <script>
-        const DATA_URL = './lore_data.json'; 
+        const DATA_URL = './lore_data.json';
         let allData = [];
         let activeCategory = 'All';
 
@@ -94,7 +269,7 @@
             try {
                 const response = await fetch(`${DATA_URL}?t=${new Date().getTime()}`);
                 if (!response.ok) throw new Error("Data missing");
-                
+
                 allData = await response.json();
                 allData.sort((a, b) => b.score - a.score);
 
@@ -119,8 +294,8 @@
             const categories = ['All', ...new Set(allData.map(d => d.category))];
             document.getElementById('filters').innerHTML = categories.map(cat => {
                 const isActive = cat === activeCategory;
-                const activeClass = isActive ? 'border-[#C9A959] text-[#C9A959] bg-[#C9A959]/10' : 'border-zinc-800 text-zinc-400 hover:border-zinc-600 hover:text-zinc-200';
-                return `<button onclick="changeCategory('${cat}')" class="px-5 py-2 border rounded-sm text-xs font-bold uppercase tracking-wider transition-all duration-300 ${activeClass}">${cat}</button>`;
+                const activeClass = isActive ? 'border-[#C9A959] text-[#C9A959] bg-[#C9A959]/10 active' : 'border-zinc-800 text-zinc-400 hover:border-[#C9A959]/50 hover:text-zinc-200';
+                return `<button onclick="changeCategory('${cat}')" class="filter-btn px-5 py-2 border text-xs font-bold uppercase tracking-wider transition-all duration-300 souls-font ${activeClass}" style="clip-path: polygon(6px 0, 100% 0, calc(100% - 6px) 100%, 0 100%);">${cat}</button>`;
             }).join('');
         }
 
@@ -143,18 +318,18 @@
                 // Determine original index to open correct modal
                 const originalIndex = allData.indexOf(post);
                 const summary = (post.body || '').slice(0, 200).replace(/\n/g, ' ') + "...";
-                
+
                 return `
-                <div class="card border border-zinc-800 p-6 rounded-sm flex flex-col h-full transition-all duration-300 relative group cursor-pointer" onclick="openModal(${originalIndex})">
+                <div class="card border-2 border-zinc-800 p-6 flex flex-col h-full transition-all duration-300 relative group cursor-pointer parchment-overlay" onclick="openModal(${originalIndex})">
                     <div class="flex justify-between items-start mb-4">
-                        <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider border border-zinc-800 px-2 py-1 rounded bg-black/40">${post.category}</span>
-                        <span class="text-[10px] text-zinc-600 font-mono">⬆ ${post.score}</span>
+                        <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider border border-zinc-800 px-2 py-1 bg-black/60" style="clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);">${post.category}</span>
+                        <span class="text-[10px] text-[#C9A959]/60 font-mono">⬆ ${post.score}</span>
                     </div>
                     <h2 class="text-lg souls-font text-zinc-200 mb-3 leading-snug group-hover:text-[#C9A959] transition-colors">${post.title}</h2>
-                    <p class="text-zinc-400 text-sm leading-relaxed mb-6 font-light border-l-2 border-zinc-800 pl-3">${summary}</p>
-                    <div class="mt-auto pt-4 border-t border-zinc-800/50 flex justify-between items-center">
-                        <span class="text-[10px] text-zinc-600 uppercase tracking-widest">Read Full Scroll</span>
-                        <span class="text-zinc-500 group-hover:translate-x-1 transition-transform">→</span>
+                    <p class="text-zinc-400 text-sm leading-relaxed mb-6 font-light border-l-2 border-[#C9A959]/30 pl-3">${summary}</p>
+                    <div class="mt-auto pt-4 border-t ornate-border flex justify-between items-center">
+                        <span class="text-[10px] text-zinc-600 uppercase tracking-widest souls-font">Read Full Scroll</span>
+                        <span class="text-[#C9A959] group-hover:translate-x-1 transition-transform">→</span>
                     </div>
                 </div>
                 `;
@@ -177,13 +352,14 @@
             const commentsContainer = document.getElementById('m-comments');
             if (post.comments && post.comments.length > 0) {
                 commentsContainer.innerHTML = post.comments.map(c => `
-                    <div class="bg-black/20 p-4 rounded border-l-2 border-zinc-700">
+                    <div class="bg-black/40 p-4 border-l-2 border-[#C9A959]/40 relative parchment-overlay" style="border-image: linear-gradient(180deg, #C9A959 0%, transparent 100%) 1;">
+                        <div class="absolute top-2 left-2 text-[#C9A959] opacity-20 text-xs">❋</div>
                         <p class="text-sm text-zinc-400 leading-relaxed font-light whitespace-pre-wrap">${c.body}</p>
-                        <p class="text-right text-[10px] text-zinc-600 mt-2 font-mono">⬆ ${c.score}</p>
+                        <p class="text-right text-[10px] text-[#C9A959]/60 mt-2 font-mono">⬆ ${c.score}</p>
                     </div>
                 `).join('');
             } else {
-                commentsContainer.innerHTML = `<p class="text-zinc-600 italic text-sm">No insights found in the archives.</p>`;
+                commentsContainer.innerHTML = `<p class="text-zinc-600 italic text-sm souls-font text-center">No insights found in the archives.</p>`;
             }
 
             // Show Modal
@@ -199,11 +375,12 @@
         }
 
         // Close on Escape key
-        document.addEventListener('keydown', function(event) {
+        document.addEventListener('keydown', function (event) {
             if (event.key === "Escape") closeModal();
         });
 
         loadLore();
     </script>
 </body>
+
 </html>

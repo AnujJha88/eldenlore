@@ -79,7 +79,7 @@ def scrape_and_save():
         
         # Get Top Posts (Limited to prevent long runtimes)
         url = f"https://www.reddit.com/r/{sub}/top.json"
-        data = fetch_json(url, {'t': 'month', 'limit': 50}) 
+        data = fetch_json(url, {'t': 'month', 'limit': 100}) 
         
         if data:
             posts = data.get('data', {}).get('children', [])
