@@ -172,14 +172,198 @@
             height: 2px;
             background: linear-gradient(90deg, transparent 0%, #C9A959 50%, transparent 100%);
         }
+
+        /* Floating particles */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
+            25% { transform: translateY(-20px) translateX(10px); opacity: 0.5; }
+            50% { transform: translateY(-40px) translateX(-5px); opacity: 0.3; }
+            75% { transform: translateY(-20px) translateX(-10px); opacity: 0.5; }
+        }
+
+        .particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: #C9A959;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            box-shadow: 0 0 10px rgba(201, 169, 89, 0.8);
+        }
+
+        /* Fog effect */
+        @keyframes fog-drift {
+            0% { transform: translateX(-100%) translateY(0); opacity: 0; }
+            10% { opacity: 0.15; }
+            90% { opacity: 0.15; }
+            100% { transform: translateX(100%) translateY(-20px); opacity: 0; }
+        }
+
+        .fog {
+            position: fixed;
+            width: 200%;
+            height: 200px;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                rgba(201, 169, 89, 0.05) 25%,
+                rgba(201, 169, 89, 0.08) 50%,
+                rgba(201, 169, 89, 0.05) 75%,
+                transparent 100%);
+            filter: blur(40px);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Dramatic card entrance */
+        @keyframes card-entrance {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .card {
+            animation: card-entrance 0.6s ease-out backwards;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.05s; }
+        .card:nth-child(2) { animation-delay: 0.1s; }
+        .card:nth-child(3) { animation-delay: 0.15s; }
+        .card:nth-child(4) { animation-delay: 0.2s; }
+        .card:nth-child(5) { animation-delay: 0.25s; }
+        .card:nth-child(6) { animation-delay: 0.3s; }
+
+        /* Modal entrance */
+        @keyframes modal-entrance {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        #modal-content {
+            animation: modal-entrance 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Glowing ember effect on hover */
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201, 169, 89, 0.3) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .card:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Rune glow pulse */
+        @keyframes rune-pulse {
+            0%, 100% { 
+                opacity: 0.2; 
+                filter: drop-shadow(0 0 2px rgba(201, 169, 89, 0.3));
+            }
+            50% { 
+                opacity: 0.6; 
+                filter: drop-shadow(0 0 8px rgba(201, 169, 89, 0.8));
+            }
+        }
+
+        .rune-accent::before {
+            animation: rune-pulse 3s ease-in-out infinite;
+        }
+
+        .rune-glow {
+            animation: rune-pulse 3s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        /* Crackling border effect */
+        @keyframes border-crackle {
+            0%, 100% { border-color: #C9A959; }
+            50% { border-color: rgba(201, 169, 89, 0.5); }
+        }
+
+        #modal-content {
+            animation: modal-entrance 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
+                       border-crackle 2s ease-in-out infinite;
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #C9A959;
+            font-size: 24px;
+            animation: bounce 2s infinite;
+            opacity: 0.5;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        /* Grace site effect for header */
+        .grace-glow {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background: linear-gradient(90deg, 
+                transparent 0%, 
+                #C9A959 20%,
+                #FFD700 50%,
+                #C9A959 80%,
+                transparent 100%);
+            box-shadow: 0 0 20px rgba(201, 169, 89, 0.6);
+            animation: grace-shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes grace-shimmer {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
     </style>
 </head>
 
 <body class="min-h-screen flex flex-col items-center selection:bg-[#C9A959] selection:text-black">
+    
+    <!-- Floating particles -->
+    <div id="particles-container"></div>
+    
+    <!-- Fog layers -->
+    <div class="fog" style="top: 10%; animation: fog-drift 40s linear infinite;"></div>
+    <div class="fog" style="top: 40%; animation: fog-drift 50s linear infinite 10s;"></div>
+    <div class="fog" style="top: 70%; animation: fog-drift 45s linear infinite 20s;"></div>
 
     <header
-        class="w-full max-w-7xl p-6 md:p-10 border-b ornate-border flex flex-col md:flex-row justify-between items-center sticky top-0 z-40 backdrop-blur-md parchment-overlay"
-        style="background: rgba(10, 8, 6, 0.95);"></header>
+        class="w-full max-w-7xl p-6 md:p-10 border-b ornate-border flex flex-col md:flex-row justify-between items-center sticky top-0 z-40 backdrop-blur-md parchment-overlay relative"
+        style="background: rgba(10, 8, 6, 0.95);">
+        <div class="grace-glow"></div>
     <div class="mb-4 md:mb-0 text-center md:text-left relative">
         <div class="absolute -top-2 left-0 text-[#C9A959] opacity-20 text-4xl">◈</div>
         <h1 class="text-3xl md:text-5xl font-bold gold-text tracking-tight relative">The Great Archives</h1>
@@ -195,20 +379,33 @@
     </header>
 
     <nav
-        class="w-full max-w-7xl p-4 md:p-6 overflow-x-auto whitespace-nowrap scrollbar-hide border-b ornate-border relative rune-accent">
-    </nav>
-    <div id="filters" class="flex space-x-3 pb-2"></div>
+        class="w-full max-w-7xl p-4 md:p-6 overflow-x-auto whitespace-nowrap scrollbar-hide border-b ornate-border relative">
+        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 text-[#C9A959] text-2xl rune-glow">⚜</div>
+        <div id="filters" class="flex space-x-3 pb-2"></div>
     </nav>
 
     <main id="content-grid" class="w-full max-w-7xl p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="col-span-full py-32 text-center animate-pulse-gold">
+        <div class="col-span-full py-32 text-center animate-pulse-gold relative">
+            <div class="text-6xl mb-6 opacity-40">✦</div>
             <h2 class="text-2xl souls-font text-[#C9A959] mb-4">Communing with the Erdtree...</h2>
-            <p class="text-zinc-600">Retrieving ancient scrolls.</p>
+            <p class="text-zinc-600 italic">Retrieving ancient scrolls from the depths.</p>
+            <div class="mt-8 flex justify-center gap-2">
+                <span class="inline-block w-2 h-2 bg-[#C9A959] rounded-full animate-pulse" style="animation-delay: 0s;"></span>
+                <span class="inline-block w-2 h-2 bg-[#C9A959] rounded-full animate-pulse" style="animation-delay: 0.2s;"></span>
+                <span class="inline-block w-2 h-2 bg-[#C9A959] rounded-full animate-pulse" style="animation-delay: 0.4s;"></span>
+            </div>
         </div>
     </main>
 
-    <footer class="w-full p-8 text-center text-zinc-700 text-xs border-t border-zinc-900 mt-auto">
-        <p>Fan project. Not affiliated with FromSoftware.</p>
+    <footer class="w-full p-12 text-center border-t ornate-border mt-auto relative bg-black/40">
+        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#C9A959] text-3xl rune-glow">◈</div>
+        <p class="souls-font tracking-wider text-zinc-400 text-sm mb-2">Fan project. Not affiliated with FromSoftware.</p>
+        <p class="text-[#C9A959] italic text-xs opacity-70">May the Elden Ring guide thee</p>
+        <div class="mt-4 flex justify-center gap-4 text-[#C9A959] opacity-30 text-xl">
+            <span class="rune-glow">✦</span>
+            <span class="rune-glow" style="animation-delay: 1s;">❖</span>
+            <span class="rune-glow" style="animation-delay: 2s;">✦</span>
+        </div>
     </footer>
 
     <div id="modal-overlay"
@@ -219,8 +416,8 @@
             style="clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px); box-shadow: 0 0 60px rgba(201, 169, 89, 0.4), inset 0 0 40px rgba(0,0,0,0.8);"
             onclick="event.stopPropagation()"></div>
 
-        <button onclick="closeModal()" class="absolute top-4 right-4 text-zinc-500 hover:text-white z-10">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button onclick="closeModal()" class="absolute top-6 right-6 text-zinc-500 hover:text-[#C9A959] z-10 transition-all duration-300 hover:rotate-90 p-2 border border-zinc-800 hover:border-[#C9A959] bg-black/60" style="clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
         </button>
@@ -380,6 +577,58 @@
         });
 
         loadLore();
+
+        // Create floating particles
+        function createParticles() {
+            const container = document.getElementById('particles-container');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                particle.style.animationDelay = Math.random() * 5 + 's';
+                particle.style.animation = `float ${Math.random() * 10 + 15}s ease-in-out infinite`;
+                container.appendChild(particle);
+            }
+        }
+
+        createParticles();
+
+        // Add scroll indicator when at top
+        let scrollIndicator = null;
+        function checkScroll() {
+            if (window.scrollY < 100) {
+                if (!scrollIndicator) {
+                    scrollIndicator = document.createElement('div');
+                    scrollIndicator.className = 'scroll-indicator souls-font';
+                    scrollIndicator.innerHTML = '⌄';
+                    document.body.appendChild(scrollIndicator);
+                }
+            } else {
+                if (scrollIndicator) {
+                    scrollIndicator.remove();
+                    scrollIndicator = null;
+                }
+            }
+        }
+
+        window.addEventListener('scroll', checkScroll);
+        checkScroll();
+
+        // Add sound effect simulation on card hover (visual feedback)
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const cards = document.querySelectorAll('.card');
+                cards.forEach(card => {
+                    card.addEventListener('mouseenter', function() {
+                        this.style.transition = 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
+                    });
+                });
+            }, 1000);
+        });
     </script>
 </body>
 
