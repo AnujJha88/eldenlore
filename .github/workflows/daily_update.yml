@@ -1,0 +1,48 @@
+name: Daily Lore Update
+
+on:
+  schedule:
+    - cron: '0 8 * * *' # Runs daily at 8:00 AM UTC
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+permissions:
+  contents: write # Needed to commit the JSON file back to the repo
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run Scraper
+       
+        run: python scraper.py
+
+      - name: Commit and Push Data
+        run: |
+          git config --global user.name 'LoreBot'
+          git config --global user.email 'bot@noreply.github.com'
+          # Check if lore_data.json has changed before committing
+          if [[ -n $(git status -s lore_data.json) ]]; then
+            git add lore_data.json
+            git commit -m "Daily Lore Update [skip ci]"
+            git push
+          else
+            echo "No changes in lore data today."
+          fi
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./ 
+          # We publish the root directory because that is where index.html lives
