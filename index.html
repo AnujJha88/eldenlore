@@ -26,12 +26,12 @@
             bottom: 0;
             background: radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.6) 100%);
             pointer-events: none;
-            z-index: 1;
+            z-index: 0;
         }
 
         body>* {
             position: relative;
-            z-index: 2;
+            z-index: 10;
         }
 
         h1,
@@ -183,60 +183,61 @@
 
         .particle {
             position: fixed;
-            width: 3px;
-            height: 3px;
+            width: 4px;
+            height: 4px;
             background: #C9A959;
             border-radius: 50%;
             pointer-events: none;
-            z-index: 1;
-            box-shadow: 0 0 10px rgba(201, 169, 89, 0.8);
+            z-index: 5;
+            box-shadow: 0 0 15px rgba(201, 169, 89, 1);
+            opacity: 0.8;
         }
 
         /* Fog effect */
         @keyframes fog-drift {
-            0% { transform: translateX(-100%) translateY(0); opacity: 0; }
-            10% { opacity: 0.15; }
-            90% { opacity: 0.15; }
-            100% { transform: translateX(100%) translateY(-20px); opacity: 0; }
+            0% { 
+                transform: translateX(0) translateY(0); 
+                opacity: 0; 
+            }
+            5% { 
+                opacity: 1; 
+            }
+            95% { 
+                opacity: 1; 
+            }
+            100% { 
+                transform: translateX(150%) translateY(-30px); 
+                opacity: 0; 
+            }
         }
 
         .fog {
             position: fixed;
-            width: 200%;
-            height: 200px;
+            width: 300%;
+            height: 350px;
             background: linear-gradient(90deg, 
                 transparent 0%, 
-                rgba(201, 169, 89, 0.05) 25%,
-                rgba(201, 169, 89, 0.08) 50%,
-                rgba(201, 169, 89, 0.05) 75%,
+                rgba(201, 169, 89, 0.08) 25%,
+                rgba(201, 169, 89, 0.12) 50%,
+                rgba(201, 169, 89, 0.08) 75%,
                 transparent 100%);
-            filter: blur(40px);
+            filter: blur(70px);
             pointer-events: none;
-            z-index: 1;
+            z-index: 3;
+            opacity: 0.6;
         }
 
         /* Dramatic card entrance */
         @keyframes card-entrance {
-            from {
+            0% {
                 opacity: 0;
-                transform: translateY(30px) scale(0.95);
+                transform: translateY(50px) scale(0.9);
             }
-            to {
+            100% {
                 opacity: 1;
                 transform: translateY(0) scale(1);
             }
         }
-
-        .card {
-            animation: card-entrance 0.6s ease-out backwards;
-        }
-
-        .card:nth-child(1) { animation-delay: 0.05s; }
-        .card:nth-child(2) { animation-delay: 0.1s; }
-        .card:nth-child(3) { animation-delay: 0.15s; }
-        .card:nth-child(4) { animation-delay: 0.2s; }
-        .card:nth-child(5) { animation-delay: 0.25s; }
-        .card:nth-child(6) { animation-delay: 0.3s; }
 
         /* Modal entrance */
         @keyframes modal-entrance {
@@ -278,21 +279,23 @@
         /* Rune glow pulse */
         @keyframes rune-pulse {
             0%, 100% { 
-                opacity: 0.2; 
-                filter: drop-shadow(0 0 2px rgba(201, 169, 89, 0.3));
+                opacity: 0.4; 
+                filter: drop-shadow(0 0 5px rgba(201, 169, 89, 0.6));
+                transform: scale(1);
             }
             50% { 
-                opacity: 0.6; 
-                filter: drop-shadow(0 0 8px rgba(201, 169, 89, 0.8));
+                opacity: 1; 
+                filter: drop-shadow(0 0 15px rgba(201, 169, 89, 1));
+                transform: scale(1.1);
             }
         }
 
         .rune-accent::before {
-            animation: rune-pulse 3s ease-in-out infinite;
+            animation: rune-pulse 2.5s ease-in-out infinite;
         }
 
         .rune-glow {
-            animation: rune-pulse 3s ease-in-out infinite;
+            animation: rune-pulse 2.5s ease-in-out infinite;
             display: inline-block;
         }
 
@@ -310,20 +313,27 @@
         /* Scroll indicator */
         .scroll-indicator {
             position: fixed;
-            bottom: 30px;
+            bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
             color: #C9A959;
-            font-size: 24px;
+            font-size: 32px;
             animation: bounce 2s infinite;
-            opacity: 0.5;
-            z-index: 10;
+            opacity: 0.7;
+            z-index: 100;
             pointer-events: none;
+            text-shadow: 0 0 20px rgba(201, 169, 89, 0.8);
         }
 
         @keyframes bounce {
-            0%, 100% { transform: translateX(-50%) translateY(0); }
-            50% { transform: translateX(-50%) translateY(-10px); }
+            0%, 100% { 
+                transform: translateX(-50%) translateY(0); 
+                opacity: 0.7;
+            }
+            50% { 
+                transform: translateX(-50%) translateY(-15px); 
+                opacity: 1;
+            }
         }
 
         /* Grace site effect for header */
@@ -356,9 +366,10 @@
     <div id="particles-container"></div>
     
     <!-- Fog layers -->
-    <div class="fog" style="top: 10%; animation: fog-drift 40s linear infinite;"></div>
-    <div class="fog" style="top: 40%; animation: fog-drift 50s linear infinite 10s;"></div>
-    <div class="fog" style="top: 70%; animation: fog-drift 45s linear infinite 20s;"></div>
+    <div class="fog" style="top: 10%; left: -150%; animation: fog-drift 30s linear infinite;"></div>
+    <div class="fog" style="top: 35%; left: -150%; animation: fog-drift 35s linear infinite 5s;"></div>
+    <div class="fog" style="top: 60%; left: -150%; animation: fog-drift 32s linear infinite 10s;"></div>
+    <div class="fog" style="top: 85%; left: -150%; animation: fog-drift 38s linear infinite 15s; opacity: 0.8;"></div>
 
     <header
         class="w-full max-w-7xl p-6 md:p-10 border-b ornate-border flex flex-col md:flex-row justify-between items-center sticky top-0 z-40 backdrop-blur-md parchment-overlay relative"
@@ -397,11 +408,11 @@
         </div>
     </main>
 
-    <footer class="w-full p-12 text-center border-t ornate-border mt-auto relative bg-black/40">
-        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#C9A959] text-3xl rune-glow">◈</div>
-        <p class="souls-font tracking-wider text-zinc-400 text-sm mb-2">Fan project. Not affiliated with FromSoftware.</p>
-        <p class="text-[#C9A959] italic text-xs opacity-70">May the Elden Ring guide thee</p>
-        <div class="mt-4 flex justify-center gap-4 text-[#C9A959] opacity-30 text-xl">
+    <footer class="w-full p-16 text-center border-t ornate-border mt-20 relative" style="background: rgba(0, 0, 0, 0.8); z-index: 20;">
+        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#C9A959] text-4xl rune-glow">◈</div>
+        <p class="souls-font tracking-wider text-zinc-300 text-base mb-3">Fan project. Not affiliated with FromSoftware.</p>
+        <p class="text-[#C9A959] italic text-sm">May the Elden Ring guide thee</p>
+        <div class="mt-6 flex justify-center gap-6 text-[#C9A959] text-2xl">
             <span class="rune-glow">✦</span>
             <span class="rune-glow" style="animation-delay: 1s;">❖</span>
             <span class="rune-glow" style="animation-delay: 2s;">✦</span>
@@ -517,7 +528,7 @@
                 const summary = (post.body || '').slice(0, 200).replace(/\n/g, ' ') + "...";
 
                 return `
-                <div class="card border-2 border-zinc-800 p-6 flex flex-col h-full transition-all duration-300 relative group cursor-pointer parchment-overlay" onclick="openModal(${originalIndex})">
+                <div class="card border-2 border-zinc-800 p-6 flex flex-col h-full transition-all duration-300 relative group cursor-pointer parchment-overlay" onclick="openModal(${originalIndex})" style="animation: card-entrance 0.6s ease-out ${0.05 * (index + 1)}s backwards;">
                     <div class="flex justify-between items-start mb-4">
                         <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider border border-zinc-800 px-2 py-1 bg-black/60" style="clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);">${post.category}</span>
                         <span class="text-[10px] text-[#C9A959]/60 font-mono">⬆ ${post.score}</span>
@@ -581,21 +592,26 @@
         // Create floating particles
         function createParticles() {
             const container = document.getElementById('particles-container');
-            const particleCount = 30;
+            const particleCount = 40;
             
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
                 particle.style.left = Math.random() * 100 + '%';
                 particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
-                particle.style.animationDelay = Math.random() * 5 + 's';
-                particle.style.animation = `float ${Math.random() * 10 + 15}s ease-in-out infinite`;
+                const duration = Math.random() * 8 + 12;
+                const delay = Math.random() * 5;
+                particle.style.animation = `float ${duration}s ease-in-out ${delay}s infinite`;
                 container.appendChild(particle);
             }
         }
 
-        createParticles();
+        // Wait for DOM to be ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', createParticles);
+        } else {
+            createParticles();
+        }
 
         // Add scroll indicator when at top
         let scrollIndicator = null;
