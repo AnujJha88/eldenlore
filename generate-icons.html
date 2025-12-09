@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Icons</title>
+</head>
+<body style="background: #000; color: #C9A959; font-family: serif; text-align: center; padding: 50px;">
+    <h1>Icon Generator</h1>
+    <p>Right-click each canvas and "Save image as..."</p>
+    
+    <h2>icon-192.png</h2>
+    <canvas id="icon192" width="192" height="192" style="border: 2px solid #C9A959;"></canvas>
+    
+    <h2>icon-512.png</h2>
+    <canvas id="icon512" width="512" height="512" style="border: 2px solid #C9A959;"></canvas>
+
+    <script>
+        function drawIcon(canvas, size) {
+            const ctx = canvas.getContext('2d');
+            
+            // Background
+            ctx.fillStyle = '#0a0806';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Golden circle
+            ctx.strokeStyle = '#C9A959';
+            ctx.lineWidth = size / 64;
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size * 0.35, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Inner circle
+            ctx.beginPath();
+            ctx.arc(size/2, size/2, size * 0.25, 0, Math.PI * 2);
+            ctx.stroke();
+            
+            // Sword emoji
+            ctx.font = `${size * 0.4}px serif`;
+            ctx.fillStyle = '#C9A959';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('⚔️', size/2, size/2);
+        }
+        
+        drawIcon(document.getElementById('icon192'), 192);
+        drawIcon(document.getElementById('icon512'), 512);
+    </script>
+</body>
+</html>
