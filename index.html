@@ -9,18 +9,22 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Great Archives">
     <meta name="description" content="Curated Elden Ring lore and theories from the Lands Between">
-    <link rel="manifest" href="/manifest.json">
-    <link rel="apple-touch-icon" href="/icon-192.png">
+    <link rel="manifest" href="./manifest.json">
+    <link rel="apple-touch-icon" href="./icon-192.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
     <title>The Great Archives | Elden Ring Lore</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&family=Spectral:wght@300;400;600;700&family=Cormorant+Garamond:wght@300;400;600;700&family=EB+Garamond:wght@400;600;700&display=swap"
         rel="stylesheet">
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Spectral', 'Georgia', serif;
             background: radial-gradient(ellipse at top, #1a1410 0%, #0a0806 50%, #000000 100%);
             color: #d4d4d4;
             position: relative;
+            font-weight: 300;
         }
 
         /* Subtle vignette effect */
@@ -45,8 +49,15 @@
         h2,
         h3,
         .souls-font {
-            font-family: 'Cinzel', serif;
-            letter-spacing: 0.05em;
+            font-family: 'Spectral', 'Cormorant Garamond', 'Cinzel', serif;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-family: 'EB Garamond', 'Spectral', serif;
+            font-weight: 700;
+            letter-spacing: 0.12em;
         }
 
         .gold-text {
@@ -182,10 +193,27 @@
 
         /* Floating particles */
         @keyframes float {
-            0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
-            25% { transform: translateY(-20px) translateX(10px); opacity: 0.5; }
-            50% { transform: translateY(-40px) translateX(-5px); opacity: 0.3; }
-            75% { transform: translateY(-20px) translateX(-10px); opacity: 0.5; }
+
+            0%,
+            100% {
+                transform: translateY(0px) translateX(0px);
+                opacity: 0.3;
+            }
+
+            25% {
+                transform: translateY(-20px) translateX(10px);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: translateY(-40px) translateX(-5px);
+                opacity: 0.3;
+            }
+
+            75% {
+                transform: translateY(-20px) translateX(-10px);
+                opacity: 0.5;
+            }
         }
 
         .particle {
@@ -202,19 +230,22 @@
 
         /* Fog effect */
         @keyframes fog-drift {
-            0% { 
-                transform: translateX(0) translateY(0); 
-                opacity: 0; 
+            0% {
+                transform: translateX(0) translateY(0);
+                opacity: 0;
             }
-            5% { 
-                opacity: 1; 
+
+            5% {
+                opacity: 1;
             }
-            95% { 
-                opacity: 1; 
+
+            95% {
+                opacity: 1;
             }
-            100% { 
-                transform: translateX(150%) translateY(-30px); 
-                opacity: 0; 
+
+            100% {
+                transform: translateX(150%) translateY(-30px);
+                opacity: 0;
             }
         }
 
@@ -222,12 +253,12 @@
             position: fixed;
             width: 300%;
             height: 350px;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                rgba(201, 169, 89, 0.08) 25%,
-                rgba(201, 169, 89, 0.12) 50%,
-                rgba(201, 169, 89, 0.08) 75%,
-                transparent 100%);
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(201, 169, 89, 0.08) 25%,
+                    rgba(201, 169, 89, 0.12) 50%,
+                    rgba(201, 169, 89, 0.08) 75%,
+                    transparent 100%);
             filter: blur(70px);
             pointer-events: none;
             z-index: 3;
@@ -240,6 +271,7 @@
                 opacity: 0;
                 transform: translateY(50px) scale(0.9);
             }
+
             100% {
                 opacity: 1;
                 transform: translateY(0) scale(1);
@@ -252,6 +284,7 @@
                 opacity: 0;
                 transform: scale(0.9) translateY(20px);
             }
+
             to {
                 opacity: 1;
                 transform: scale(1) translateY(0);
@@ -285,13 +318,16 @@
 
         /* Rune glow pulse */
         @keyframes rune-pulse {
-            0%, 100% { 
-                opacity: 0.4; 
+
+            0%,
+            100% {
+                opacity: 0.4;
                 filter: drop-shadow(0 0 5px rgba(201, 169, 89, 0.6));
                 transform: scale(1);
             }
-            50% { 
-                opacity: 1; 
+
+            50% {
+                opacity: 1;
                 filter: drop-shadow(0 0 15px rgba(201, 169, 89, 1));
                 transform: scale(1.1);
             }
@@ -308,13 +344,20 @@
 
         /* Crackling border effect */
         @keyframes border-crackle {
-            0%, 100% { border-color: #C9A959; }
-            50% { border-color: rgba(201, 169, 89, 0.5); }
+
+            0%,
+            100% {
+                border-color: #C9A959;
+            }
+
+            50% {
+                border-color: rgba(201, 169, 89, 0.5);
+            }
         }
 
         #modal-content {
-            animation: modal-entrance 0.4s cubic-bezier(0.16, 1, 0.3, 1), 
-                       border-crackle 2s ease-in-out infinite;
+            animation: modal-entrance 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                border-crackle 2s ease-in-out infinite;
         }
 
         /* Scroll indicator */
@@ -333,12 +376,15 @@
         }
 
         @keyframes bounce {
-            0%, 100% { 
-                transform: translateX(-50%) translateY(0); 
+
+            0%,
+            100% {
+                transform: translateX(-50%) translateY(0);
                 opacity: 0.7;
             }
-            50% { 
-                transform: translateX(-50%) translateY(-15px); 
+
+            50% {
+                transform: translateX(-50%) translateY(-15px);
                 opacity: 1;
             }
         }
@@ -350,27 +396,36 @@
             height: 2px;
             bottom: 0;
             left: 0;
-            background: linear-gradient(90deg, 
-                transparent 0%, 
-                #C9A959 20%,
-                #FFD700 50%,
-                #C9A959 80%,
-                transparent 100%);
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    #C9A959 20%,
+                    #FFD700 50%,
+                    #C9A959 80%,
+                    transparent 100%);
             box-shadow: 0 0 20px rgba(201, 169, 89, 0.6);
             animation: grace-shimmer 3s ease-in-out infinite;
         }
 
         @keyframes grace-shimmer {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.8; }
+
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+
+            50% {
+                opacity: 0.8;
+            }
         }
+
+
 
         /* Battle-worn texture */
         .battle-worn::after {
             content: '';
             position: absolute;
             inset: 0;
-            background-image: 
+            background-image:
                 linear-gradient(45deg, transparent 48%, rgba(139, 69, 19, 0.03) 49%, rgba(139, 69, 19, 0.03) 51%, transparent 52%),
                 linear-gradient(-45deg, transparent 48%, rgba(139, 69, 19, 0.03) 49%, rgba(139, 69, 19, 0.03) 51%, transparent 52%);
             background-size: 8px 8px;
@@ -380,13 +435,14 @@
 
         /* Ember sparks on hover */
         @keyframes spark {
-            0% { 
-                transform: translate(0, 0) scale(1); 
-                opacity: 1; 
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 1;
             }
-            100% { 
-                transform: translate(var(--tx), var(--ty)) scale(0); 
-                opacity: 0; 
+
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(0);
+                opacity: 0;
             }
         }
 
@@ -426,8 +482,17 @@
         }
 
         @keyframes bloodstain-pulse {
-            0%, 100% { opacity: 0.7; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.15); }
+
+            0%,
+            100% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.15);
+            }
         }
 
         /* Sword divider */
@@ -447,8 +512,13 @@
             background: linear-gradient(to right, transparent, #C9A959, transparent);
         }
 
-        .sword-divider::before { left: 0; }
-        .sword-divider::after { right: 0; }
+        .sword-divider::before {
+            left: 0;
+        }
+
+        .sword-divider::after {
+            right: 0;
+        }
 
         .sword-divider span {
             display: inline-block;
@@ -474,6 +544,36 @@
             transition: width 1s ease-out;
         }
 
+        /* Loading progress bar animation */
+        #progress-bar {
+            position: relative;
+            overflow: hidden;
+        }
+
+        #progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+                    transparent 0%,
+                    rgba(255, 255, 255, 0.3) 50%,
+                    transparent 100%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
         /* Cracked border effect */
         .cracked-border {
             position: relative;
@@ -483,13 +583,13 @@
             content: '';
             position: absolute;
             inset: -2px;
-            background: linear-gradient(45deg, 
-                transparent 30%, 
-                rgba(201, 169, 89, 0.1) 31%, 
-                transparent 32%,
-                transparent 48%,
-                rgba(201, 169, 89, 0.1) 49%,
-                transparent 50%);
+            background: linear-gradient(45deg,
+                    transparent 30%,
+                    rgba(201, 169, 89, 0.1) 31%,
+                    transparent 32%,
+                    transparent 48%,
+                    rgba(201, 169, 89, 0.1) 49%,
+                    transparent 50%);
             background-size: 20px 20px;
             pointer-events: none;
             opacity: 0;
@@ -502,68 +602,181 @@
 
         /* War banner flag effect */
         @keyframes banner-wave {
-            0%, 100% { transform: skewX(0deg); }
-            25% { transform: skewX(1deg); }
-            75% { transform: skewX(-1deg); }
+
+            0%,
+            100% {
+                transform: skewX(0deg);
+            }
+
+            25% {
+                transform: skewX(1deg);
+            }
+
+            75% {
+                transform: skewX(-1deg);
+            }
         }
 
         .war-banner {
             animation: banner-wave 4s ease-in-out infinite;
         }
+
+        /* Sinister shadow tendrils */
+        .shadow-tendril {
+            position: fixed;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent 0%, rgba(139, 0, 0, 0.3) 50%, transparent 100%);
+            pointer-events: none;
+            z-index: 1;
+            animation: tendril-sway 15s ease-in-out infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes tendril-sway {
+            0%, 100% { transform: translateX(0) scaleY(1); }
+            50% { transform: translateX(10px) scaleY(1.1); }
+        }
+
+        /* Ominous glow */
+        .ominous-glow {
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(139, 0, 0, 0.15) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+            filter: blur(40px);
+            animation: ominous-pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes ominous-pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.2); }
+        }
+
+        /* Death marker for very high scores */
+        .death-marker {
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, rgba(0, 0, 0, 0.9) 0%, rgba(139, 0, 0, 0.6) 50%, transparent 100%);
+            border: 2px solid rgba(139, 0, 0, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            animation: death-pulse 3s ease-in-out infinite;
+            z-index: 6;
+        }
+
+        @keyframes death-pulse {
+            0%, 100% { 
+                transform: scale(1); 
+                box-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
+            }
+            50% { 
+                transform: scale(1.1); 
+                box-shadow: 0 0 20px rgba(139, 0, 0, 0.8);
+            }
+        }
+
+        /* Flickering candle effect */
+        @keyframes candle-flicker {
+            0%, 100% { opacity: 1; filter: brightness(1); }
+            25% { opacity: 0.9; filter: brightness(0.95); }
+            50% { opacity: 0.95; filter: brightness(0.98); }
+            75% { opacity: 0.92; filter: brightness(0.96); }
+        }
+
+        .candle-flicker {
+            animation: candle-flicker 3s ease-in-out infinite;
+        }
     </style>
 </head>
 
 <body class="min-h-screen flex flex-col items-center selection:bg-[#C9A959] selection:text-black">
-    
+
     <!-- Floating particles -->
     <div id="particles-container"></div>
-    
+
     <!-- Fog layers -->
     <div class="fog" style="top: 10%; left: -150%; animation: fog-drift 30s linear infinite;"></div>
     <div class="fog" style="top: 35%; left: -150%; animation: fog-drift 35s linear infinite 5s;"></div>
     <div class="fog" style="top: 60%; left: -150%; animation: fog-drift 32s linear infinite 10s;"></div>
     <div class="fog" style="top: 85%; left: -150%; animation: fog-drift 38s linear infinite 15s; opacity: 0.8;"></div>
+    
+    <!-- Shadow tendrils -->
+    <div class="shadow-tendril" style="left: 10%; animation-delay: 0s;"></div>
+    <div class="shadow-tendril" style="left: 30%; animation-delay: 3s;"></div>
+    <div class="shadow-tendril" style="left: 70%; animation-delay: 6s;"></div>
+    <div class="shadow-tendril" style="left: 90%; animation-delay: 9s;"></div>
+    
+    <!-- Ominous glows -->
+    <div class="ominous-glow" style="top: 20%; left: 10%;"></div>
+    <div class="ominous-glow" style="bottom: 20%; right: 10%; animation-delay: 4s;"></div>
 
+    <!-- Character silhouettes -->
     <header
         class="w-full max-w-7xl p-6 md:p-10 border-b ornate-border flex flex-col md:flex-row justify-between items-center sticky top-0 z-40 backdrop-blur-md parchment-overlay relative war-banner"
         style="background: rgba(10, 8, 6, 0.95);">
         <div class="grace-glow"></div>
-    <div class="mb-4 md:mb-0 text-center md:text-left relative">
-        <div class="absolute -top-2 left-0 text-[#C9A959] opacity-20 text-4xl">⚔️</div>
-        <h1 class="text-3xl md:text-5xl font-bold gold-text tracking-tight relative">The Great Archives</h1>
-        <p class="text-zinc-500 text-sm mt-2 font-mono italic">⚔️ Curated Knowledge from the Lands Between ⚔️</p>
-        <div class="absolute -bottom-2 right-0 text-[#C9A959] opacity-20 text-4xl">🛡️</div>
-    </div>
-    <div class="text-center md:text-right">
-        <div class="inline-block px-4 py-2 border border-[#C9A959]/30 bg-black/40 relative"
-            style="clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);">
-            <p id="last-updated" class="text-xs text-zinc-400 font-mono uppercase tracking-widest">System Offline</p>
+        <div class="mb-4 md:mb-0 text-center md:text-left relative">
+            <div class="absolute -top-2 left-0 text-[#C9A959] opacity-20 text-4xl">◈</div>
+            <h1 class="text-3xl md:text-5xl font-bold gold-text tracking-tight relative">The Great Archives</h1>
+            <p class="text-zinc-500 text-sm mt-2 font-mono italic">Curated Knowledge from the Lands Between</p>
+            <div class="absolute -bottom-2 right-0 text-[#C9A959] opacity-20 text-4xl">◈</div>
         </div>
-    </div>
+        <div class="text-center md:text-right">
+            <div class="inline-block px-4 py-2 border border-[#C9A959]/30 bg-black/40 relative"
+                style="clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);">
+                <p id="last-updated" class="text-xs text-zinc-400 font-mono uppercase tracking-widest">System Offline
+                </p>
+            </div>
+        </div>
     </header>
 
     <nav
-        class="w-full max-w-7xl p-4 md:p-6 overflow-x-auto whitespace-nowrap scrollbar-hide border-b ornate-border relative">
+        class="w-full max-w-7xl p-4 md:p-6 overflow-x-auto whitespace-nowrap scrollbar-hide border-b ornate-border relative mx-auto">
         <div class="absolute -top-3 left-1/2 transform -translate-x-1/2 text-[#C9A959] text-2xl rune-glow">⚜</div>
-        <div id="filters" class="flex space-x-3 pb-2"></div>
+        <div id="filters" class="flex space-x-3 pb-2 justify-center md:justify-start"></div>
     </nav>
 
-    <main id="content-grid" class="w-full max-w-7xl p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="col-span-full py-32 text-center animate-pulse-gold relative">
-            <div class="text-6xl mb-6 opacity-40">✦</div>
+    <main id="content-grid" class="w-full max-w-7xl p-4 md:p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mx-auto">
+        <div id="loading-state" class="col-span-full py-32 text-center animate-pulse-gold relative candle-flicker">
+            <div class="text-6xl mb-6 opacity-40 rune-glow">☠</div>
             <h2 class="text-2xl souls-font text-[#C9A959] mb-4">Communing with the Erdtree...</h2>
             <p class="text-zinc-600 italic">Retrieving ancient scrolls from the depths.</p>
             <div class="mt-8 flex justify-center gap-2">
-                <span class="inline-block w-2 h-2 bg-[#C9A959] rounded-full animate-pulse" style="animation-delay: 0s;"></span>
-                <span class="inline-block w-2 h-2 bg-[#C9A959] rounded-full animate-pulse" style="animation-delay: 0.2s;"></span>
-                <span class="inline-block w-2 h-2 bg-[#C9A959] rounded-full animate-pulse" style="animation-delay: 0.4s;"></span>
+                <span class="inline-block w-2 h-2 bg-[#C9A959] rounded-full animate-pulse"
+                    style="animation-delay: 0s;"></span>
+                <span class="inline-block w-2 h-2 bg-[#C9A959] rounded-full animate-pulse"
+                    style="animation-delay: 0.2s;"></span>
+                <span class="inline-block w-2 h-2 bg-[#C9A959] rounded-full animate-pulse"
+                    style="animation-delay: 0.4s;"></span>
+            </div>
+            <div id="loading-progress" class="mt-8 max-w-md mx-auto">
+                <div class="w-full h-2 bg-zinc-900 border border-zinc-800 overflow-hidden">
+                    <div id="progress-bar"
+                        class="h-full bg-gradient-to-r from-[#8B0000] via-[#C9A959] to-[#FFD700] transition-all duration-500"
+                        style="width: 0%"></div>
+                </div>
+                <p id="loading-text" class="text-zinc-500 text-xs mt-2 font-mono">Initializing...</p>
             </div>
         </div>
     </main>
 
-    <footer class="w-full p-16 text-center border-t ornate-border mt-20 relative" style="background: rgba(0, 0, 0, 0.8); z-index: 20;">
-        <div class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#C9A959] text-4xl rune-glow">◈</div>
-        <p class="souls-font tracking-wider text-zinc-300 text-base mb-3">Fan project. Not affiliated with FromSoftware.</p>
+    <footer class="w-full max-w-7xl p-16 text-center border-t ornate-border mt-20 relative mx-auto"
+        style="background: rgba(0, 0, 0, 0.8); z-index: 20;">
+        <div
+            class="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-[#C9A959] text-4xl rune-glow">
+            ◈</div>
+        <p class="souls-font tracking-wider text-zinc-300 text-base mb-3">Fan project. Not affiliated with FromSoftware.
+        </p>
         <p class="text-[#C9A959] italic text-sm">May the Elden Ring guide thee</p>
         <div class="mt-6 flex justify-center gap-6 text-[#C9A959] text-2xl">
             <span class="rune-glow">✦</span>
@@ -580,9 +793,12 @@
             style="clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px); box-shadow: 0 0 60px rgba(201, 169, 89, 0.4), inset 0 0 40px rgba(0,0,0,0.8);"
             onclick="event.stopPropagation()">
 
-            <button onclick="closeModal()" class="absolute top-6 right-6 text-zinc-500 hover:text-[#C9A959] z-10 transition-all duration-300 hover:rotate-90 p-2 border border-zinc-800 hover:border-[#C9A959] bg-black/60" style="clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);">
+            <button onclick="closeModal()"
+                class="absolute top-6 right-6 text-zinc-500 hover:text-[#C9A959] z-10 transition-all duration-300 hover:rotate-90 p-2 border border-zinc-800 hover:border-[#C9A959] bg-black/60"
+                style="clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                    </path>
                 </svg>
             </button>
 
@@ -595,7 +811,8 @@
                         style="clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);">LORE</span>
                     <span id="m-score" class="text-[10px] text-zinc-500 font-mono py-1">⬆ 0</span>
                 </div>
-                <h2 id="m-title" class="text-2xl md:text-3xl souls-font text-zinc-100 leading-tight gold-text">Title Goes
+                <h2 id="m-title" class="text-2xl md:text-3xl souls-font text-zinc-100 leading-tight gold-text">Title
+                    Goes
                     Here</h2>
             </div>
 
@@ -604,7 +821,7 @@
                 <div id="m-body" class="text-zinc-300 text-base leading-relaxed whitespace-pre-wrap font-light"></div>
 
                 <div class="sword-divider">
-                    <span>⚔️</span>
+                    <span>✦</span>
                 </div>
 
                 <div class="pt-4 relative">
@@ -625,16 +842,58 @@
     </div>
 
     <script>
-        const DATA_URL = './lore_data.json';
+        const DATA_URL = './lore_data_alternative.json';
         let allData = [];
         let activeCategory = 'All';
 
         async function loadLore() {
+            const progressBar = document.getElementById('progress-bar');
+            const loadingText = document.getElementById('loading-text');
+
             try {
+                // Update progress: Fetching
+                progressBar.style.width = '20%';
+                loadingText.innerText = 'Connecting to the archives...';
+
                 const response = await fetch(`${DATA_URL}?t=${new Date().getTime()}`);
                 if (!response.ok) throw new Error("Data missing");
 
-                allData = await response.json();
+                // Update progress: Downloading
+                progressBar.style.width = '50%';
+                loadingText.innerText = 'Downloading ancient scrolls...';
+
+                const contentLength = response.headers.get('content-length');
+                const total = parseInt(contentLength, 10);
+                let loaded = 0;
+
+                const reader = response.body.getReader();
+                const chunks = [];
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+
+                    chunks.push(value);
+                    loaded += value.length;
+
+                    if (total) {
+                        const percent = Math.min(50 + (loaded / total) * 30, 80);
+                        progressBar.style.width = percent + '%';
+                    }
+                }
+
+                // Update progress: Parsing
+                progressBar.style.width = '85%';
+                loadingText.innerText = 'Deciphering runes...';
+
+                const blob = new Blob(chunks);
+                const text = await blob.text();
+                allData = JSON.parse(text);
+
+                // Update progress: Sorting
+                progressBar.style.width = '95%';
+                loadingText.innerText = 'Organizing by importance...';
+
                 allData.sort((a, b) => b.score - a.score);
 
                 if (allData.length > 0) {
@@ -642,14 +901,24 @@
                     document.getElementById('last-updated').innerText = `Last Update: ${dateObj.toLocaleDateString()}`;
                 }
 
-                renderFilters();
-                renderCards('All');
+                // Update progress: Complete
+                progressBar.style.width = '100%';
+                loadingText.innerText = `Loaded ${allData.length} scrolls!`;
+
+                setTimeout(() => {
+                    document.getElementById('loading-state').style.display = 'none';
+                    renderFilters();
+                    renderCards('All');
+                }, 500);
+
             } catch (error) {
                 console.error(error);
                 document.getElementById('content-grid').innerHTML = `
                     <div class="col-span-full text-center py-20">
+                        <div class="text-4xl mb-4 text-red-900/50">☠️</div>
                         <h2 class="text-xl text-red-900/50 souls-font">Archives Empty</h2>
                         <p class="text-zinc-600 mt-2">Run the scraper to retrieve knowledge.</p>
+                        <p class="text-zinc-700 mt-4 text-xs font-mono">${error.message}</p>
                     </div>`;
             }
         }
@@ -685,26 +954,36 @@
 
                 const scorePercent = Math.min((post.score / 1000) * 100, 100);
                 const isHighScore = post.score > 500;
+                const isDeathMarker = post.score > 1000;
                 const categoryIcons = {
-                    'Lore': '⚔️',
-                    'Theory': '🛡️',
-                    'Discussion': '🗡️',
-                    'Question': '🏹',
-                    'All': '⚜️'
+                    'Lore': '✦',
+                    'Theory': '◈',
+                    'Discussion': '❖',
+                    'Question': '⚜',
+                    'All': '✧'
                 };
-                const icon = categoryIcons[post.category] || '⚔️';
-                const hasImage = post.url && post.url !== 'None';
+                const icon = categoryIcons[post.category] || '✦';
+
+                // Check for image in both image_url and url fields
+                let imageUrl = null;
+                if (post.image_url && post.image_url !== 'None') {
+                    imageUrl = post.image_url;
+                } else if (post.url && (post.url.match(/\.(jpg|jpeg|png|gif|webp)$/i) || post.url.includes('i.redd.it') || post.url.includes('preview.redd.it'))) {
+                    imageUrl = post.url;
+                }
+
+                const hasImage = imageUrl !== null;
                 const imagePreview = hasImage ? `
                     <div class="mb-3 overflow-hidden border border-zinc-800 relative" style="height: 150px; clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);">
-                        <img src="${post.image_url}" alt="" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-300" onerror="this.parentElement.style.display='none';" />
+                        <img src="${imageUrl}" alt="" class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-300" onerror="this.parentElement.style.display='none';" />
                         <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
                         <div class="absolute bottom-2 right-2 text-[#C9A959] text-xs">🖼️</div>
                     </div>
                 ` : '';
 
                 return `
-                <div class="card border-2 border-zinc-800 p-6 flex flex-col h-full transition-all duration-300 relative group cursor-pointer parchment-overlay battle-worn cracked-border" onclick="openModal(${originalIndex})" style="animation: card-entrance 0.6s ease-out ${0.05 * (index + 1)}s backwards;">
-                    ${isHighScore ? '<div class="bloodstain"></div>' : ''}
+                <div class="card border-2 border-zinc-800 p-6 flex flex-col h-full transition-all duration-300 relative group cursor-pointer parchment-overlay battle-worn cracked-border candle-flicker" onclick="openModal(${originalIndex})" style="animation: card-entrance 0.6s ease-out ${0.05 * (index + 1)}s backwards;">
+                    ${isDeathMarker ? '<div class="death-marker">☠</div>' : (isHighScore ? '<div class="bloodstain"></div>' : '')}
                     <div class="flex justify-between items-start mb-4">
                         <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider border border-zinc-800 px-2 py-1 bg-black/60" style="clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);">${icon} ${post.category}</span>
                         <span class="text-[10px] text-[#C9A959]/60 font-mono">⬆ ${post.score}</span>
@@ -717,9 +996,9 @@
                     <p class="text-zinc-400 text-sm leading-relaxed mb-6 font-light border-l-2 border-[#C9A959]/30 pl-3">${summary}</p>
                     <div class="mt-auto pt-4 border-t ornate-border flex justify-between items-center">
                         <span class="text-[10px] text-zinc-600 uppercase tracking-widest souls-font flex items-center gap-2">
-                            <span class="text-[#C9A959] text-sm">⚔️</span>
+                            <span class="text-[#C9A959] text-sm">✦</span>
                             Read Full Scroll
-                            <span class="text-[#C9A959] text-sm">⚔️</span>
+                            <span class="text-[#C9A959] text-sm">✦</span>
                         </span>
                         <span class="text-[#C9A959] group-hover:translate-x-2 transition-transform text-lg">→</span>
                     </div>
@@ -740,12 +1019,20 @@
             document.getElementById('m-body').innerText = post.body || "No text content.";
             document.getElementById('m-link').href = post.url;
 
-            // Populate Image if exists
+            // Populate Image if exists (check both image_url and url fields)
             const imageContainer = document.getElementById('m-image');
+            let modalImageUrl = null;
+
             if (post.image_url && post.image_url !== 'None') {
+                modalImageUrl = post.image_url;
+            } else if (post.url && (post.url.match(/\.(jpg|jpeg|png|gif|webp)$/i) || post.url.includes('i.redd.it') || post.url.includes('preview.redd.it'))) {
+                modalImageUrl = post.url;
+            }
+
+            if (modalImageUrl) {
                 imageContainer.innerHTML = `
                     <div class="relative border-2 border-[#C9A959]/30 overflow-hidden" style="clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);">
-                        <img src="${post.image_url}" alt="${post.title}" class="w-full h-auto" onerror="this.parentElement.parentElement.style.display='none';" />
+                        <img src="${modalImageUrl}" alt="${post.title}" class="w-full h-auto" onerror="this.parentElement.parentElement.style.display='none';" />
                         <div class="absolute inset-0 pointer-events-none" style="background: linear-gradient(180deg, transparent 0%, rgba(0,0,0,0.3) 100%);"></div>
                     </div>
                 `;
@@ -788,16 +1075,30 @@
 
         // Register service worker for PWA
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/service-worker.js')
-                .then(reg => console.log('Service Worker registered'))
-                .catch(err => console.log('Service Worker registration failed'));
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./service-worker.js')
+                    .then(reg => {
+                        console.log('✅ Service Worker registered:', reg.scope);
+                    })
+                    .catch(err => {
+                        console.error('❌ Service Worker registration failed:', err);
+                    });
+            });
         }
+
+        // PWA install prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            console.log('💾 PWA install available');
+        });
 
         // Create floating particles
         function createParticles() {
             const container = document.getElementById('particles-container');
             const particleCount = 40;
-            
+
             for (let i = 0; i < particleCount; i++) {
                 const particle = document.createElement('div');
                 particle.className = 'particle';
@@ -843,9 +1144,9 @@
             setTimeout(() => {
                 const cards = document.querySelectorAll('.card');
                 cards.forEach(card => {
-                    card.addEventListener('mouseenter', function(e) {
+                    card.addEventListener('mouseenter', function (e) {
                         this.style.transition = 'all 0.3s cubic-bezier(0.16, 1, 0.3, 1)';
-                        
+
                         // Create ember sparks
                         for (let i = 0; i < 8; i++) {
                             const spark = document.createElement('div');
@@ -858,7 +1159,7 @@
                             spark.style.animation = `spark ${0.5 + Math.random() * 0.4}s ease-out forwards`;
                             spark.style.animationDelay = (Math.random() * 0.15) + 's';
                             this.appendChild(spark);
-                            
+
                             setTimeout(() => spark.remove(), 1000);
                         }
                     });

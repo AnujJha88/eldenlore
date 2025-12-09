@@ -8,7 +8,10 @@ from datetime import datetime
 OUTPUT_FILE = 'lore_data.json'
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
 
-TARGET_SUBREDDITS = ['EldenRingLoreTalk', 'eldenringlore']
+TARGET_SUBREDDITS = [
+    'EldenRingLoreTalk',
+    'eldenringlore'
+]
 SEARCH_QUERIES = ['flair:"Lore Theory"', 'title:timeline', 'title:"deep dive"']
 
 # Rate limit settings
@@ -86,12 +89,11 @@ def scrape_and_save():
     for sub in TARGET_SUBREDDITS:
         print(f"Scanning r/{sub}...")
         
-        # Scrape multiple sorting methods to get more posts
+        # Scrape fewer sorting methods for faster scraping
         sort_methods = [
-            ('hot', None, 100),
-            ('top', 'month', 100),
-            ('top', 'year', 100),
-            ('new', None, 100)
+            ('hot', None, 50),
+            ('new', None, 50),
+            ('best', None, 50)
         ]
         
         for sort_idx, (sort_type, time_filter, limit) in enumerate(sort_methods):
@@ -106,7 +108,7 @@ def scrape_and_save():
             
             after = None
             pages_fetched = 0
-            max_pages = 3  # Fetch 3 pages per sort method (300 posts per method)
+            max_pages = 2  # Fetch 2 pages per sort method for faster scraping
             
             while pages_fetched < max_pages:
                 print(f"    Fetching page {pages_fetched + 1}/{max_pages}...")
@@ -176,7 +178,7 @@ def scrape_and_save():
         return 
 
     # Save to JSON
-    with open(OUTPUT_FILE, 'w', encoding='utf-8') as f:
+    with open(OUTPUT_FILE, 'a', encoding='utf-8') as f:
         json.dump(all_posts, f, indent=2)
     
     print(f"Done! Saved {len(all_posts)} scrolls with insights to '{OUTPUT_FILE}'.")

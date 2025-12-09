@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PWA Test</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+            background: #000;
+            color: #0f0;
+        }
+        .status { margin: 10px 0; }
+        .pass { color: #0f0; }
+        .fail { color: #f00; }
+        .warn { color: #ff0; }
+    </style>
+</head>
+<body>
+    <h1>PWA Installation Test</h1>
+    <div id="results"></div>
+
+    <script>
+        const results = document.getElementById('results');
+        
+        function log(message, status = 'info') {
+            const div = document.createElement('div');
+            div.className = `status ${status}`;
+            div.textContent = message;
+            results.appendChild(div);
+        }
+
+        // Test 1: HTTPS
+        if (location.protocol === 'https:' || location.hostname === 'localhost') {
+            log('✅ HTTPS: OK', 'pass');
+        } else {
+            log('❌ HTTPS: Required for PWA', 'fail');
+        }
+
+        // Test 2: Service Worker Support
+        if ('serviceWorker' in navigator) {
+            log('✅ Service Worker: Supported', 'pass');
+            
+            navigator.serviceWorker.getRegistrations().then(regs => {
+                if (regs.length > 0) {
+                    log(`✅ Service Worker: ${regs.length} registered`, 'pass');
+                } else {
+                    log('⚠️ Service Worker: Not registered yet', 'warn');
+                }
+            });
+        } else {
+            log('❌ Service Worker: Not supported', 'fail');
+        }
+
+        // Test 3: Manifest
+        fetch('./manifest.json')
+            .then(res => res.json())
+            .then(manifest => {
+                log('✅ Manifest: Found', 'pass');
+                log(`   Name: ${manifest.name}`, 'info');
+                log(`   Icons: ${manifest.icons.length}`, 'info');
+            })
+            .catch(() => {
+                log('❌ Manifest: Not found', 'fail');
+            });
+
+        // Test 4: Icons
+        const testIcon = new Image();
+        testIcon.onload = () => log('✅ Icon 192: Found', 'pass');
+        testIcon.onerror = () => log('❌ Icon 192: Missing', 'fail');
+        testIcon.src = './icon-192.png';
+
+        const testIcon512 = new Image();
+        testIcon512.onload = () => log('✅ Icon 512: Found', 'pass');
+        testIcon512.onerror = () => log('❌ Icon 512: Missing', 'fail');
+        testIcon512.src = './icon-512.png';
+
+        // Test 5: Install prompt
+        window.addEventListener('beforeinstallprompt', (e) => {
+            log('✅ Install Prompt: Available', 'pass');
+        });
+
+        setTimeout(() => {
+            log('\n📱 If all tests pass, you can install the PWA!', 'info');
+        }, 2000);
+    </script>
+</body>
+</html>

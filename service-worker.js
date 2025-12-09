@@ -1,9 +1,12 @@
-const CACHE_NAME = 'great-archives-v1';
+const CACHE_NAME = 'great-archives-v2';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/lore_data.json',
-  '/manifest.json'
+  './',
+  './index.html',
+  './lore_data.json',
+  './lore_data_alternative.json',
+  './manifest.json',
+  './icon-192.png',
+  './icon-512.png'
 ];
 
 // Install service worker and cache files
