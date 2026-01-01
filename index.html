@@ -971,7 +971,7 @@
         document.getElementById('admin-form').addEventListener('submit', async function (e) {
             e.preventDefault();
 
-            const newPost = {
+            const postData = {
                 title: document.getElementById('admin-title').value,
                 category: document.getElementById('admin-category').value,
                 body: document.getElementById('admin-body').value,
@@ -981,14 +981,28 @@
                 comments: []
             };
 
-            // Add to the beginning of the array
-            allData.unshift(newPost);
+            const editIndex = this.dataset.editIndex;
+            
+            if (editIndex !== undefined) {
+                // Edit mode - update existing post
+                const index = parseInt(editIndex);
+                postData.comments = allData[index].comments; // Keep existing comments
+                postData.scraped_at = allData[index].scraped_at; // Keep original date
+                allData[index] = postData;
+                
+                showNotification('✦ Entry Updated! ✦', 'Your lore entry has been updated successfully.', 'success');
+                
+                // Reset edit mode
+                delete this.dataset.editIndex;
+                this.querySelector('button[type="submit"]').innerHTML = '✦ Publish Entry ✦';
+            } else {
+                // Add mode - add new post
+                allData.unshift(postData);
+                showNotification('✦ Entry Published! ✦', 'Your lore entry has been added successfully.', 'success');
+            }
 
-            // Save to localStorage as backup
-            localStorage.setItem('blog_posts_backup', JSON.stringify(allData));
-
-            // Show success message
-            showNotification('✦ Entry Published! ✦', 'Your lore entry has been added successfully.', 'success');
+            // Save to localStorage for persistence
+            saveToLocalStorage();
 
             // Reset form and close admin
             this.reset();
@@ -1029,6 +1043,19 @@
         async function loadLore() {
             const progressBar = document.getElementById('progress-bar');
             const loadingText = document.getElementById('loading-text');
+
+            // First, try to load from localStorage
+            if (loadFromLocalStorage()) {
+                progressBar.style.width = '100%';
+                loadingText.innerText = 'Loading from local storage...';
+                
+                setTimeout(() => {
+                    document.getElementById('loading-state').style.display = 'none';
+                    displayPosts(allData);
+                    createFilters(allData);
+                }, 500);
+                return;
+            }
 
             try {
                 // Update progress: Fetching
@@ -1164,6 +1191,21 @@
                 return `
                 <div class="card border-2 border-zinc-800 p-6 flex flex-col h-full transition-all duration-300 relative group cursor-pointer parchment-overlay battle-worn cracked-border candle-flicker" onclick="openModal(${originalIndex})" style="animation: card-entrance 0.6s ease-out ${0.05 * (index + 1)}s backwards;">
                     ${isDeathMarker ? '<div class="death-marker">☠</div>' : (isHighScore ? '<div class="bloodstain"></div>' : '')}
+                    
+                    <!-- Admin Controls -->
+                    <div class="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex gap-1 z-10">
+                        <button onclick="event.stopPropagation(); editPost(${originalIndex})" 
+                                class="bg-blue-600/80 hover:bg-blue-500 text-white text-xs px-2 py-1 border border-blue-400/50 transition-colors" 
+                                title="Edit Post">
+                            ✏️
+                        </button>
+                        <button onclick="event.stopPropagation(); deletePost(${originalIndex})" 
+                                class="bg-red-600/80 hover:bg-red-500 text-white text-xs px-2 py-1 border border-red-400/50 transition-colors" 
+                                title="Delete Post">
+                            🗑️
+                        </button>
+                    </div>
+                    
                     <div class="flex justify-between items-start mb-4">
                         <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider border border-zinc-800 px-2 py-1 bg-black/60" style="clip-path: polygon(4px 0, 100% 0, calc(100% - 4px) 100%, 0 100%);">${icon} ${post.category}</span>
                         <span class="text-[10px] text-[#C9A959]/60 font-mono">⬆ ${post.score}</span>
@@ -1363,6 +1405,135 @@
             showNotification('📥 Download Ready', 'Replace your blog_posts.json file with the downloaded version.', 'info');
         }
 
+        // Edit post function
+        function editPost(index) {
+            const post = allData[index];
+            
+            // Populate admin form with existing data
+            document.getElementById('admin-title').value = post.title;
+            document.getElementById('admin-category').value = post.category;
+            document.getElementById('admin-body').value = post.body;
+            document.getElementById('admin-image').value = post.image_url || '';
+            document.getElementById('admin-score').value = post.score;
+            
+            // Show admin panel
+            const panel = document.getElementById('admin-panel');
+            const btn = document.getElementById('admin-btn');
+            panel.classList.remove('hidden');
+            btn.textContent = '✕ Close Admin';
+            btn.classList.add('bg-red-900/40', 'border-red-500/30');
+            btn.classList.remove('bg-black/40', 'border-[#C9A959]/30');
+            
+            // Change form to edit mode
+            const form = document.getElementById('admin-form');
+            form.dataset.editIndex = index;
+            form.querySelector('button[type="submit"]').innerHTML = '✦ Update Entry ✦';
+            
+            showNotification('✏️ Edit Mode', 'Modify the post and click Update Entry.', 'info');
+        }
+
+        // Delete post function
+        function deletePost(index) {
+            const post = allData[index];
+            
+            if (confirm(`Are you sure you want to delete "${post.title}"?`)) {
+                allData.splice(index, 1);
+                
+                // Save to localStorage
+                saveToLocalStorage();
+                
+                // Refresh display
+                displayPosts(allData);
+                createFilters(allData);
+                
+                showNotification('🗑️ Post Deleted', 'The post has been removed successfully.', 'success');
+            }
+        }
+
+        // Save data to localStorage
+        function saveToLocalStorage() {
+            localStorage.setItem('blog_posts_data', JSON.stringify(allData));
+            localStorage.setItem('blog_posts_timestamp', new Date().toISOString());
+        }
+
+        // Load data from localStorage if available
+        function loadFromLocalStorage() {
+            const savedData = localStorage.getItem('blog_posts_data');
+            if (savedData) {
+                try {
+                    const parsedData = JSON.parse(savedData);
+                    if (Array.isArray(parsedData) && parsedData.length > 0) {
+                        allData = parsedData;
+                        const timestamp = localStorage.getItem('blog_posts_timestamp');
+                        if (timestamp) {
+                            document.getElementById('last-updated').textContent = 
+                                `Last Updated: ${new Date(timestamp).toLocaleDateString()}`;
+                        }
+                        return true;
+                    }
+                } catch (e) {
+                    console.error('Error loading from localStorage:', e);
+                }
+            }
+            return false;
+        }
+
+        // Clear localStorage and reload original data
+        function resetToOriginal() {
+            if (confirm('This will delete all your custom posts and reload the original data. Are you sure?')) {
+                localStorage.removeItem('blog_posts_data');
+                localStorage.removeItem('blog_posts_timestamp');
+                location.reload();
+            }
+        }
+
+        // Edit post function
+        function editPost(index) {
+            const post = allData[index];
+            if (!post) return;
+
+            // Populate admin form with existing data
+            document.getElementById('admin-title').value = post.title;
+            document.getElementById('admin-category').value = post.category;
+            document.getElementById('admin-body').value = post.body;
+            document.getElementById('admin-score').value = post.score;
+            document.getElementById('admin-image').value = post.image_url || '';
+
+            // Show admin panel
+            const panel = document.getElementById('admin-panel');
+            const btn = document.getElementById('admin-btn');
+            panel.classList.remove('hidden');
+            btn.textContent = '✕ Close Admin';
+            btn.classList.add('bg-red-900/40', 'border-red-500/30');
+            btn.classList.remove('bg-black/40', 'border-[#C9A959]/30');
+
+            // Change form behavior to edit mode
+            const form = document.getElementById('admin-form');
+            form.dataset.editIndex = index;
+            form.querySelector('button[type="submit"]').textContent = '✦ Update Entry ✦';
+
+            showNotification('✏️ Edit Mode', 'Modify the post and click Update Entry to save changes.', 'info');
+        }
+
+        // Delete post function
+        function deletePost(index) {
+            const post = allData[index];
+            if (!post) return;
+
+            if (confirm(`Are you sure you want to delete "${post.title}"? This cannot be undone.`)) {
+                allData.splice(index, 1);
+                
+                // Save to localStorage as backup
+                localStorage.setItem('blog_posts_backup', JSON.stringify(allData));
+                
+                // Refresh display
+                displayPosts(allData);
+                createFilters(allData);
+                
+                showNotification('🗑️ Post Deleted', 'The post has been removed. Download the updated JSON to save changes.', 'success');
+            }
+        }
+
         // Add download button to admin panel
         document.addEventListener('DOMContentLoaded', function () {
             const adminForm = document.getElementById('admin-form');
@@ -1372,9 +1543,16 @@
                 downloadBtn.onclick = downloadBlogPosts;
                 downloadBtn.className = 'bg-blue-700 text-white font-bold py-3 px-8 hover:bg-blue-600 transition-colors';
                 downloadBtn.innerHTML = '📥 Download Updated JSON';
+                
+                const resetBtn = document.createElement('button');
+                resetBtn.type = 'button';
+                resetBtn.onclick = resetToOriginal;
+                resetBtn.className = 'bg-red-700 text-white font-bold py-3 px-8 hover:bg-red-600 transition-colors';
+                resetBtn.innerHTML = '🔄 Reset to Original';
 
                 const buttonContainer = adminForm.querySelector('.flex.gap-4');
                 buttonContainer.appendChild(downloadBtn);
+                buttonContainer.appendChild(resetBtn);
             }
         });
     </script>
